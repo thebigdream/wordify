@@ -7,7 +7,9 @@ document.body.innerHTML = '<div class="main"></div>'
 var form = "Enter a list of words into the following field, then press submit: " + '<input style="width:300px" id="field" type="text" id="fname" name="fname" value="samuel,bob,george,royce,will">' + '<button id="submit" onClick="submit()">Submit</button>' + '<div class="results"></div>'
 document.querySelector(".main").insertAdjacentHTML("beforeend", form);
 
-const places = [ "alderley", "annerley", "bowen", "brisbane", "caboolture", "chermside", "cleveland", "gympie", "indooroopilly", "ipswich", "kelvin", "maroochydore", "melbourne", "morayfield", "moreton", "nambour", "newcastle", "noosa", "nundah", "sandgate", "shorncliffe", "sunshine", "redcliffe", "sydney", "townsville", "toowoomba", "toowong", "windsor", "woolloongabba", "zillmere", ]
+const australianPlaces = [ "alderley", "annerley", "bowen", "brisbane", "buranda", "caboolture", "chermside", "cleveland", "deagon", "gympie", "indooroopilly", "ipswich", "jandowae", "kelvin", "maroochydore", "melbourne", "monkland", "morayfield", "moreton", "nambour", "newcastle", "newstead", "noosa", "nundah", "sandgate", "shorncliffe", "sunshine", "redcliffe", "sydney", "townsville", "toowoomba", "toowong", "windsor", "woolloongabba", "zillmere", ]
+const englishPlaces = [ "brighton", "cambridge", "cardiff", "dover", "essex", "leicester", "liverpool", "london", "manchester", "newcastle", "northumberland", "oxford", "somerset", "sussex", "york", ]
+
 var currentSource;
 var prefixes = []
 var suffixes = []
@@ -69,7 +71,7 @@ function submit() {
 	//generate names
 	for (var i = 0; i < 100; i++) {
 		var name = getName(1, 4)
-		if (r(0,5) == 0) name += ' ' + getName(1, 4) //low chance to add second name
+		if (r(0,5) == 0) name += '-' + getName(1, 3) //low chance to add second name
 		document.querySelector(".results").insertAdjacentHTML("beforeend", '<p style="line-height:5px">' + name + '</p>')
 	}
 }
