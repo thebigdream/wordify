@@ -1,0 +1,86 @@
+<html>
+<body>
+</body>
+</html>
+<script>
+document.body.innerHTML = '<div class="main"></div>'
+var form = "Enter a list of words into the following field, then press submit: " + '<input style="width:300px" id="field" type="text" id="fname" name="fname" value="samuel,bob,george,royce,will">' + '<button id="submit" onClick="submit()">Submit</button>' + '<div class="results"></div>'
+document.querySelector(".main").insertAdjacentHTML("beforeend", form);
+
+const places = [ "alderley", "annerley", "bowen", "brisbane", "caboolture", "chermside", "cleveland", "gympie", "indooroopilly", "ipswich", "kelvin", "maroochydore", "melbourne", "morayfield", "moreton", "nambour", "newcastle", "noosa", "nundah", "sandgate", "shorncliffe", "sunshine", "redcliffe", "sydney", "townsville", "toowoomba", "toowong", "windsor", "woolloongabba", "zillmere", ]
+var currentSource;
+var prefixes = []
+var suffixes = []
+
+// Create a name using the prefix and suffix segments
+function getName(min, max) {
+    var strLength = r(min, max)
+	var name = []
+	
+    if (r(0,3) != 0) {
+		// High chance to start with a prefix
+		do var ran = r(0, prefixes.length);
+		while (name.includes(prefixes[ran])) name.push(prefixes[ran]);
+	} else {
+		// Low chance to start with a suffix
+		do var ran = r(0, suffixes.length);
+		while (name.includes(suffixes[ran])) name.push(suffixes[ran]);
+	}
+		// Add suffix segments
+    for (j = 0; j < strLength; j++) {
+		do var ran = r(0, suffixes.length);
+		while (name.includes(suffixes[ran])) name.push(suffixes[ran]);
+    }
+    return capitalise(name.join(''))
+}
+
+//Submit function
+function submit() {
+	// Current source equals values in the field
+	currentSource = document.querySelector("#field").value.split(',') //use words entered into the field
+	
+	// Split words into segments
+	prefixes = []
+	suffixes = []
+	
+	for (var i = 0; i < currentSource.length; i++) {
+		var segment = ''
+		var prefix = true;
+		for (var j = 0; j < currentSource[i].length + 1; j++) {
+			if (segment != '') {
+				if (currentSource[i].charAt(j) == 'a' || currentSource[i].charAt(j) == 'e' || currentSource[i].charAt(j) == 'i' || currentSource[i].charAt(j) == 'o' || currentSource[i].charAt(j) == 'u') { //if reach vowel
+					if (!prefix) {
+						suffixes.push(segment)
+					}
+					if (prefix) {
+						prefixes.push(segment)
+						prefix = false;
+					}
+					console.log(segment)
+					segment = '' //restart segment
+				}
+				if (j == currentSource[i].length) suffixes.push(segment), console.log(segment) //if end of string, add last segment to suffixes
+			} segment += currentSource[i].charAt(j)
+		} 
+	}
+
+	document.getElementsByClassName("results")[0].innerHTML = '' //wipe existing results
+	
+	//generate names
+	for (var i = 0; i < 100; i++) {
+		var name = getName(1, 3)
+		if (r(0,5) == 0) name += ' ' + getName(1,3) //low chance to add second name
+		document.querySelector(".results").insertAdjacentHTML("beforeend", '<p style="line-height:5px">' + name + '</p>')
+	}
+}
+
+// Generate random number
+function r(min, max) {
+    return Math.floor((Math.random()) * max) + min
+}
+
+// Capitalise first letter of string
+function capitalise(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
+</script>
